@@ -13,7 +13,7 @@ transport = "stdio-jsonrpc"
 
 [connections]
 profile_schema = "schemas/profile.schema.json"
-secret_classes = ["secret_key"]
+secret_classes = ["cloud_secret_key"]
 
 [[capabilities]]
 id = "buckets"
