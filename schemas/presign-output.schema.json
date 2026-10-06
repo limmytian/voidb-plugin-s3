@@ -1,0 +1,32 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "type": "string"
+    },
+    "expires_seconds": {
+      "type": "integer"
+    },
+    "key": {
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "get",
+        "put"
+      ],
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "key",
+    "method",
+    "expires_seconds",
+    "url"
+  ],
+  "type": "object"
+}

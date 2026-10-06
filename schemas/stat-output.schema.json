@@ -1,0 +1,60 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "type": "string"
+    },
+    "entry": {
+      "additionalProperties": false,
+      "properties": {
+        "display_name": {
+          "type": "string"
+        },
+        "entry_type": {
+          "enum": [
+            "object",
+            "prefix"
+          ],
+          "type": "string"
+        },
+        "etag": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "key": {
+          "type": "string"
+        },
+        "last_modified": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "size": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "storage_class": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "display_name",
+        "entry_type",
+        "size"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "bucket",
+    "entry"
+  ],
+  "type": "object"
+}

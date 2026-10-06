@@ -1,0 +1,54 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "delete_extra": {
+      "default": false,
+      "type": "boolean"
+    },
+    "disclose_relative_paths": {
+      "default": false,
+      "description": "Include approved root-relative names instead of opaque entry references only.",
+      "type": "boolean"
+    },
+    "exclude": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "local_path": {
+      "description": "Directory to scan, relative to local_root.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "local_root": {
+      "description": "Human-approved absolute local root; never returned in output.",
+      "minLength": 1,
+      "type": "string"
+    },
+    "mode": {
+      "default": "sync",
+      "enum": [
+        "pull",
+        "push",
+        "sync"
+      ],
+      "type": "string"
+    },
+    "remote_prefix": {
+      "default": "",
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "local_root",
+    "local_path"
+  ],
+  "type": "object"
+}

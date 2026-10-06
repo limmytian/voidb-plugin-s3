@@ -1,0 +1,35 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "type": "string"
+    },
+    "byte_limit": {
+      "maximum": 1048576,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "bytes_returned": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "content_base64": {
+      "type": "string"
+    },
+    "content_truncated": {
+      "type": "boolean"
+    },
+    "key": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "key",
+    "content_base64",
+    "bytes_returned",
+    "content_truncated",
+    "byte_limit"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,32 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "destination_bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "destination_key": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "replace": {
+      "default": false,
+      "type": "boolean"
+    },
+    "source_bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_key": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_bucket",
+    "source_key",
+    "destination_bucket",
+    "destination_key"
+  ],
+  "type": "object"
+}

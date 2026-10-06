@@ -1,0 +1,101 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "type": "string"
+    },
+    "cursor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "delimiter": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "entries": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "display_name": {
+            "type": "string"
+          },
+          "entry_type": {
+            "enum": [
+              "object",
+              "prefix"
+            ],
+            "type": "string"
+          },
+          "etag": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "key": {
+            "type": "string"
+          },
+          "last_modified": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "size": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "storage_class": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "key",
+          "display_name",
+          "entry_type",
+          "size"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "entry_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "limit": {
+      "maximum": 500,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "next_cursor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "prefix": {
+      "type": "string"
+    },
+    "truncated": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "bucket",
+    "prefix",
+    "delimiter",
+    "entries",
+    "entry_count",
+    "limit",
+    "truncated"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "VoidB S3 Plugin"
+  short_description: "Guide for VoidB S3 storage work"
+  default_prompt: "Use $voidb-plugin-s3 to update the VoidB S3 plugin, storage capabilities, CLI, or sync operations."

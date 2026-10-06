@@ -1,0 +1,309 @@
+{
+  "$defs": {
+    "cleanup_state": {
+      "enum": [
+        "not_applicable",
+        "pending",
+        "removed",
+        "aborted",
+        "released",
+        "retained_for_resume",
+        "failed_closed"
+      ],
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "event": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint": {
+          "additionalProperties": false,
+          "properties": {
+            "completed_bytes": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "completed_chunks": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "expires_at": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "scope": {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "token": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "token",
+            "scope",
+            "completed_bytes",
+            "completed_chunks",
+            "expires_at"
+          ],
+          "type": "object"
+        },
+        "checksum": {
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {
+              "enum": [
+                "sha256",
+                "md5",
+                "etag",
+                "webdav_digest"
+              ],
+              "type": "string"
+            },
+            "scope": {
+              "enum": [
+                "whole_transfer",
+                "object",
+                "chunk"
+              ],
+              "type": "string"
+            },
+            "value": {
+              "maxLength": 512,
+              "minLength": 1,
+              "type": "string"
+            },
+            "verified": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "algorithm",
+            "scope",
+            "value",
+            "verified"
+          ],
+          "type": "object"
+        },
+        "cleanup": {
+          "additionalProperties": false,
+          "properties": {
+            "local_staging": {
+              "$ref": "#/$defs/cleanup_state"
+            },
+            "remote_lock": {
+              "$ref": "#/$defs/cleanup_state"
+            },
+            "remote_partial": {
+              "$ref": "#/$defs/cleanup_state"
+            }
+          },
+          "required": [
+            "local_staging",
+            "remote_partial",
+            "remote_lock"
+          ],
+          "type": "object"
+        },
+        "conflict": {
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "policy": {
+              "enum": [
+                "fail",
+                "skip",
+                "replace"
+              ],
+              "type": "string"
+            },
+            "resolution": {
+              "enum": [
+                "pending",
+                "failed",
+                "skipped",
+                "replaced"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "code",
+            "policy",
+            "resolution"
+          ],
+          "type": "object"
+        },
+        "current_chunk": {
+          "additionalProperties": false,
+          "properties": {
+            "completed": {
+              "type": "boolean"
+            },
+            "index": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "length": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "offset": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "index",
+            "offset",
+            "length",
+            "completed"
+          ],
+          "type": "object"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "upload",
+            "download",
+            "copy",
+            "move"
+          ],
+          "type": "string"
+        },
+        "phase": {
+          "enum": [
+            "planned",
+            "awaiting_authorization",
+            "queued",
+            "preparing",
+            "transferring",
+            "paused",
+            "conflict",
+            "retry_waiting",
+            "verifying",
+            "committing",
+            "cancelling",
+            "cleaning_up",
+            "completed",
+            "cancelled",
+            "failed"
+          ],
+          "type": "string"
+        },
+        "progress": {
+          "additionalProperties": false,
+          "properties": {
+            "bytes_completed": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "bytes_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "chunks_completed": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "chunks_total": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "objects_completed": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "objects_total": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "bytes_completed",
+            "objects_completed",
+            "chunks_completed"
+          ],
+          "type": "object"
+        },
+        "protocol_version": {
+          "const": 1
+        },
+        "redaction": {
+          "enum": [
+            "not_required",
+            "applied",
+            "withheld",
+            "failed_closed"
+          ],
+          "type": "string"
+        },
+        "retry": {
+          "additionalProperties": false,
+          "properties": {
+            "attempt": {
+              "maximum": 16,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "backoff_ms": {
+              "maximum": 300000,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "reason_code": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "attempt",
+            "backoff_ms",
+            "reason_code"
+          ],
+          "type": "object"
+        },
+        "sequence": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "terminal": {
+          "type": "boolean"
+        },
+        "transfer_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "transfer_id",
+        "sequence",
+        "observed_at",
+        "operation",
+        "phase",
+        "progress",
+        "terminal",
+        "redaction"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "event"
+  ],
+  "type": "object"
+}

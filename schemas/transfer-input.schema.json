@@ -1,0 +1,62 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "chunk_bytes": {
+      "maximum": 67108864,
+      "minimum": 5242880,
+      "type": "integer"
+    },
+    "destination_bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "destination_key": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expected_sha256": {
+      "description": "Optional whole-object SHA-256 required before local commit or reported success.",
+      "pattern": "^[A-Fa-f0-9]{64}$",
+      "type": "string"
+    },
+    "key": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "local_path": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "local_root": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "upload",
+        "download",
+        "copy",
+        "move"
+      ],
+      "type": "string"
+    },
+    "replace": {
+      "default": false,
+      "type": "boolean"
+    },
+    "resume_token": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "operation",
+    "bucket",
+    "key"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,46 @@
+[package]
+name = "voidb-plugin-s3"
+version = "0.3.0"
+edition = "2024"
+license = "Apache-2.0"
+authors = ["limmytian <limmytian@gmail.com>"]
+description = "Standalone VoidB process plugin for Amazon S3 and S3-compatible object storage"
+repository = "https://github.com/limmytian/voidb-plugin-s3"
+
+[[bin]]
+name = "voidb-plugin-s3"
+path = "src/main.rs"
+
+[dependencies]
+voidb-process-plugin-sdk = { path = "../voidb/crates/voidb-process-plugin-sdk" }
+voidb-core = { path = "../voidb/crates/voidb-core" }
+rust-s3 = "0.37"
+async-trait = "0.1"
+clap = { version = "4.5", features = ["derive"] }
+tokio = { version = "1.43", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+tracing = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+base64 = "0.22"
+sha2 = "0.10"
+hex = "0.4"
+http = "1"
+ratatui = "0.29"
+crossterm = "0.28"
+
+[dev-dependencies]
+uuid = { version = "1.13", features = ["v4"] }
+
+[[example]]
+name = "export_schemas"
+path = "examples/export_schemas.rs"
+
+[[example]]
+name = "fixture_smoke"
+path = "examples/fixture_smoke.rs"
+
+[[example]]
+name = "s3_transfer_reliability"
+path = "examples/s3_transfer_reliability.rs"

@@ -1,0 +1,51 @@
+{
+  "profile_label": "fixture-s3",
+  "provider_label": "MinIO",
+  "auth_method": "Access Key",
+  "bucket": "voidb-fixture-bucket",
+  "prefix": "voidb-smoke/",
+  "buckets": [
+    "voidb-fixture-bucket",
+    "archive-fixture-bucket"
+  ],
+  "entries": [
+    {
+      "key": "voidb-smoke/reports/",
+      "display_name": "reports/",
+      "entry_type": "prefix",
+      "size": 0,
+      "last_modified": "2026-07-07T07:00:00Z",
+      "storage_class": "STANDARD",
+      "etag": null
+    },
+    {
+      "key": "voidb-smoke/report.csv",
+      "display_name": "report.csv",
+      "entry_type": "object",
+      "size": 4096,
+      "last_modified": "2026-07-07T07:05:00Z",
+      "storage_class": "STANDARD",
+      "etag": "fixture-report-etag"
+    },
+    {
+      "key": "voidb-smoke/delete-me.txt",
+      "display_name": "delete-me.txt",
+      "entry_type": "object",
+      "size": 64,
+      "last_modified": "2026-07-07T07:06:00Z",
+      "storage_class": "STANDARD",
+      "etag": "fixture-delete-etag"
+    },
+    {
+      "key": "voidb-smoke/cold-archive.bin",
+      "display_name": "cold-archive.bin",
+      "entry_type": "object",
+      "size": 1048576,
+      "last_modified": "2026-07-07T07:10:00Z",
+      "storage_class": "GLACIER",
+      "etag": "fixture-cold-etag"
+    }
+  ],
+  "status": "fixture s3 browser ready",
+  "permission_error": "s3.access_denied redacted fixture permission failure"
+}

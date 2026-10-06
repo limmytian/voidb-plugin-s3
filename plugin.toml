@@ -1,0 +1,205 @@
+id = "s3"
+name = "S3 Object Storage Plugin"
+version = "0.3.0"
+protocol_version = "1"
+description = "Amazon S3 and S3-compatible (MinIO, Cloudflare R2, Ceph) object storage plugin for VoidB."
+license = "Apache-2.0"
+homepage = "https://github.com/limmytian/voidb-plugin-s3"
+
+[runtime]
+command = "voidb-plugin-s3"
+args = ["serve"]
+transport = "stdio-jsonrpc"
+
+[connections]
+profile_schema = "schemas/profile.schema.json"
+secret_classes = ["secret_key"]
+
+[[capabilities]]
+id = "buckets"
+description = "Discover accessible S3 buckets with provider-returned metadata."
+input_schema = "schemas/buckets-input.schema.json"
+output_schema = "schemas/buckets-output.schema.json"
+permissions = ["connection.read", "s3.buckets"]
+risk = "read_only"
+destructive = false
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "list"
+description = "List objects and common prefixes in an S3 bucket prefix."
+input_schema = "schemas/list-input.schema.json"
+output_schema = "schemas/list-output.schema.json"
+permissions = ["connection.read", "s3.list"]
+risk = "read_only"
+destructive = false
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "stat"
+description = "Read metadata for one S3 object."
+input_schema = "schemas/stat-input.schema.json"
+output_schema = "schemas/stat-output.schema.json"
+permissions = ["connection.read", "s3.stat"]
+risk = "read_only"
+destructive = false
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "get"
+description = "Fetch one S3 object as bounded base64 content."
+input_schema = "schemas/get-input.schema.json"
+output_schema = "schemas/get-output.schema.json"
+permissions = ["connection.read", "s3.get"]
+risk = "read_only"
+destructive = false
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "put"
+description = "Upload one S3 object from inline bounded content."
+input_schema = "schemas/put-input.schema.json"
+output_schema = "schemas/put-output.schema.json"
+permissions = ["connection.write", "s3.put"]
+risk = "destructive"
+destructive = true
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = true
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "delete"
+description = "Delete one S3 object."
+input_schema = "schemas/delete-input.schema.json"
+output_schema = "schemas/delete-output.schema.json"
+permissions = ["connection.write", "s3.delete"]
+risk = "destructive"
+destructive = true
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = true
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "mkdir"
+description = "Create a virtual S3 directory placeholder object."
+input_schema = "schemas/mkdir-input.schema.json"
+output_schema = "schemas/mkdir-output.schema.json"
+permissions = ["connection.write", "s3.mkdir"]
+risk = "destructive"
+destructive = true
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = true
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "copy"
+description = "Copy one S3 object with bounded conflict handling and destination verification."
+input_schema = "schemas/copy-input.schema.json"
+output_schema = "schemas/copy-output.schema.json"
+permissions = ["connection.write", "s3.copy"]
+risk = "destructive"
+destructive = true
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = true
+default_timeout_ms = 60000
+
+[[capabilities]]
+id = "move"
+description = "Move one S3 object by verified copy and source identity recheck before deletion."
+input_schema = "schemas/move-input.schema.json"
+output_schema = "schemas/move-output.schema.json"
+permissions = ["connection.write", "s3.move"]
+risk = "destructive"
+destructive = true
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = true
+default_timeout_ms = 60000
+
+[[capabilities]]
+id = "presign"
+description = "Create a short-lived, explicitly authorized S3 GET or PUT delegation URL."
+input_schema = "schemas/presign-input.schema.json"
+output_schema = "schemas/presign-output.schema.json"
+permissions = ["connection.delegate", "s3.presign"]
+risk = "destructive"
+destructive = true
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 30000
+
+[[capabilities]]
+id = "sync_plan"
+description = "Compute a local/S3 sync plan without applying changes."
+input_schema = "schemas/sync_plan-input.schema.json"
+output_schema = "schemas/sync_plan-output.schema.json"
+permissions = ["connection.read", "s3.sync_plan", "local.scan"]
+risk = "read_only"
+destructive = false
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 60000
+
+[[capabilities]]
+id = "transfer"
+description = "Run a cancellable, resumable S3 upload, download, verified copy, or safe move inside a plugin-owned session."
+input_schema = "schemas/transfer-input.schema.json"
+output_schema = "schemas/transfer-output.schema.json"
+permissions = ["connection.read", "connection.write", "local.read", "local.write", "s3.transfer"]
+risk = "destructive"
+destructive = true
+streaming = true
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 900000
+
+[[capabilities]]
+id = "transfer_status"
+description = "Read the latest bounded S3 transfer lifecycle event without blocking the transfer."
+input_schema = "schemas/transfer_status-input.schema.json"
+output_schema = "schemas/transfer_status-output.schema.json"
+permissions = ["connection.read", "s3.transfer_status"]
+risk = "read_only"
+destructive = false
+streaming = false
+connection_required = true
+required_secret_classes = []
+supports_dry_run = false
+default_timeout_ms = 30000
+
+[ui]
+tui = true
+
+[requirements]
+voidb_core = ">=0.1.0"
+platforms = ["darwin", "linux", "windows"]

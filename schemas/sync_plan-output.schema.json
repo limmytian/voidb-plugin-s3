@@ -1,0 +1,96 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "type": "string"
+    },
+    "change_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "changes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "download",
+              "upload",
+              "delete_local",
+              "delete_remote",
+              "conflict"
+            ],
+            "type": "string"
+          },
+          "entry_ref": {
+            "type": "string"
+          },
+          "is_dir": {
+            "type": "boolean"
+          },
+          "relative_path": {
+            "type": "string"
+          },
+          "size": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "entry_ref",
+          "action",
+          "size",
+          "is_dir"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "delete_extra": {
+      "type": "boolean"
+    },
+    "exclude": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "local_scope_id": {
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "pull",
+        "push",
+        "sync"
+      ],
+      "type": "string"
+    },
+    "remote_prefix": {
+      "type": "string"
+    },
+    "scan": {
+      "type": "object"
+    },
+    "target": {
+      "type": "string"
+    },
+    "total_transfer_bytes": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "target",
+    "bucket",
+    "remote_prefix",
+    "local_scope_id",
+    "scan",
+    "mode",
+    "delete_extra",
+    "changes",
+    "change_count",
+    "total_transfer_bytes"
+  ],
+  "type": "object"
+}

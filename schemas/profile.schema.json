@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "auth": {
+      "properties": {
+        "access_key": {
+          "description": "Access Key ID",
+          "type": "string"
+        },
+        "secret_key": {
+          "description": "Secret Access Key",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "AccessKey",
+            "Auto",
+            "Anonymous"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "bucket": {
+      "description": "Default bucket name",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provider": {
+      "properties": {
+        "account_id": {
+          "description": "Cloudflare account ID for R2",
+          "type": "string"
+        },
+        "endpoint": {
+          "description": "MinIO or custom S3 endpoint URL",
+          "type": "string"
+        },
+        "path_style": {
+          "default": true,
+          "description": "Use path-style bucket addressing",
+          "type": "boolean"
+        },
+        "region": {
+          "description": "AWS or custom region",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "Aws",
+            "Minio",
+            "R2",
+            "Custom"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "timeout": {
+      "default": 30,
+      "description": "Connection timeout in seconds",
+      "minimum": 1,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "provider",
+    "auth"
+  ],
+  "title": "S3ConnectionProfile",
+  "type": "object"
+}

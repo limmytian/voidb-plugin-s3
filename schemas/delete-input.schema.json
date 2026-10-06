@@ -1,0 +1,18 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "key": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "key"
+  ],
+  "type": "object"
+}

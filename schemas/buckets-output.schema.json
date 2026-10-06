@@ -1,0 +1,40 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "buckets": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "creation_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "creation_date"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "provider": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "provider",
+    "buckets",
+    "bucket_count"
+  ],
+  "type": "object"
+}

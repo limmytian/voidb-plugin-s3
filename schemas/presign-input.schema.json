@@ -1,0 +1,32 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "expires_seconds": {
+      "default": 900,
+      "maximum": 604800,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "key": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "method": {
+      "enum": [
+        "get",
+        "put"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "key",
+    "method"
+  ],
+  "type": "object"
+}

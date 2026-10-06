@@ -1,0 +1,26 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "delimiter": {
+      "default": "/",
+      "description": "Use '/' for one-level browsing or null/empty for a flat page.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "prefix": {
+      "default": "",
+      "description": "Object prefix to list.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket"
+  ],
+  "type": "object"
+}

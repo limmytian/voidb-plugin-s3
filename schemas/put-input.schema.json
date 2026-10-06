@@ -1,0 +1,46 @@
+{
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "not": {
+        "required": [
+          "content_text"
+        ]
+      },
+      "required": [
+        "content_base64"
+      ]
+    },
+    {
+      "not": {
+        "required": [
+          "content_base64"
+        ]
+      },
+      "required": [
+        "content_text"
+      ]
+    }
+  ],
+  "properties": {
+    "bucket": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "content_base64": {
+      "type": "string"
+    },
+    "content_text": {
+      "type": "string"
+    },
+    "key": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "bucket",
+    "key"
+  ],
+  "type": "object"
+}
