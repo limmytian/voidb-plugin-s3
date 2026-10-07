@@ -12,8 +12,8 @@ name = "voidb-plugin-s3"
 path = "src/main.rs"
 
 [dependencies]
-voidb-process-plugin-sdk = { path = "../voidb/crates/voidb-process-plugin-sdk" }
-voidb-core = { path = "../voidb/crates/voidb-core" }
+voidb-process-plugin-sdk = { git = "https://github.com/limmytian/voidb.git", tag = "v0.3.0-rc.1" }
+voidb-core = { git = "https://github.com/limmytian/voidb.git", tag = "v0.3.0-rc.1" }
 rust-s3 = "0.37"
 async-trait = "0.1"
 clap = { version = "4.5", features = ["derive"] }
@@ -44,3 +44,7 @@ path = "examples/fixture_smoke.rs"
 [[example]]
 name = "s3_transfer_reliability"
 path = "examples/s3_transfer_reliability.rs"
+
+[patch."https://github.com/limmytian/voidb.git"]
+voidb-process-plugin-sdk = { path = "../voidb/crates/voidb-process-plugin-sdk" }
+voidb-core = { path = "../voidb/crates/voidb-core" }
