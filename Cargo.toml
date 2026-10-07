@@ -44,7 +44,3 @@ path = "examples/fixture_smoke.rs"
 [[example]]
 name = "s3_transfer_reliability"
 path = "examples/s3_transfer_reliability.rs"
-
-[patch."https://github.com/limmytian/voidb.git"]
-voidb-process-plugin-sdk = { path = "../voidb/crates/voidb-process-plugin-sdk" }
-voidb-core = { path = "../voidb/crates/voidb-core" }
