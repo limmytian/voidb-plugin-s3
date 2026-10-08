@@ -322,6 +322,7 @@ fn required_env(name: &str) -> Result<String> {
     std::env::var(name).with_context(|| format!("{name} is required"))
 }
 
+#[allow(clippy::result_large_err)]
 async fn invoke(
     config: &S3Config,
     capability_id: &str,
