@@ -252,7 +252,7 @@ pub async fn execute_sync_plan(
                 let key = if prefix.is_empty() {
                     change.rel_path.clone()
                 } else {
-                    format!("{}/{}", prefix, &change.rel_path)
+                    format!("{}/{}", prefix, change.rel_path)
                 };
                 let local_path = local_base_path.join(&change.rel_path);
 
@@ -275,7 +275,7 @@ pub async fn execute_sync_plan(
                 let key = if prefix.is_empty() {
                     change.rel_path.clone()
                 } else {
-                    format!("{}/{}", prefix, &change.rel_path)
+                    format!("{}/{}", prefix, change.rel_path)
                 };
                 let local_path = local_base_path.join(&change.rel_path);
 
@@ -303,7 +303,7 @@ pub async fn execute_sync_plan(
                 let key = if prefix.is_empty() {
                     change.rel_path.clone()
                 } else {
-                    format!("{}/{}", prefix, &change.rel_path)
+                    format!("{}/{}", prefix, change.rel_path)
                 };
                 s3_ops::delete(bucket, &key).await?;
                 deleted += 1;
