@@ -156,7 +156,13 @@ impl CliPlugin for S3CliPlugin {
                 ),
             Command::new("test")
                 .about("Test S3 connection")
-                .arg(conn_arg.clone()),
+                .arg(conn_arg.clone().required(false))
+                .arg(
+                    Arg::new("stdin-config")
+                        .long("stdin-config")
+                        .action(clap::ArgAction::SetTrue)
+                        .help("Read connection configuration JSON from stdin"),
+                ),
             Command::new("tui")
                 .about("Launch the standalone S3 browser TUI")
                 .arg(
@@ -348,9 +354,18 @@ impl S3CliPlugin {
     }
 
     fn parse_config(conn_name: &str, ctx: &CliContext) -> Result<S3Config, VoidbError> {
-        let config = ctx
-            .find_connection(conn_name)
-            .ok_or_else(|| VoidbError::Plugin(format!("Connection '{}' not found", conn_name)))?;
+        let config = if let Some(config) = ctx.find_connection(conn_name) {
+            config.clone()
+        } else if let Ok((_profile, config)) =
+            ctx.resolve_profile_connection(conn_name, Some("s3"))
+        {
+            config
+        } else {
+            return Err(VoidbError::Plugin(format!(
+                "Connection or profile '{}' not found",
+                conn_name
+            )));
+        };
 
         if config.effective_plugin_id() != "s3" {
             return Err(VoidbError::Plugin(format!(
@@ -779,7 +794,24 @@ impl S3CliPlugin {
     }
 
     async fn handle_test(&self, matches: &ArgMatches, ctx: &CliContext) -> Result<(), VoidbError> {
-        let config = Self::get_config(matches, ctx)?;
+        let config = if matches.get_flag("stdin-config") {
+            use std::io::Read;
+            let mut input = String::new();
+            std::io::stdin()
+                .read_to_string(&mut input)
+                .map_err(|e| VoidbError::Config(format!("Failed to read stdin: {}", e)))?;
+            let val: serde_json::Value = serde_json::from_str(&input)
+                .map_err(|e| VoidbError::Config(format!("Invalid JSON on stdin: {}", e)))?;
+            let plugin_val = val.get("plugin_config").unwrap_or(&val);
+            serde_json::from_value(plugin_val.clone())
+                .map_err(|e| VoidbError::Config(format!("Invalid S3 config: {}", e)))?
+        } else if matches.get_one::<String>("connection").is_some() {
+            Self::get_config(matches, ctx)?
+        } else {
+            return Err(VoidbError::Plugin(
+                "Either --connection or --stdin-config is required".into(),
+            ));
+        };
         let provider_label = config.provider.label();
         let svc = S3Service::new_direct(config);
 
