@@ -7,6 +7,11 @@ Independent process plugin for [VoidB](https://github.com/limmytian/voidb) to co
 ## Features
 
 - **Autonomous Process Architecture**: Runs in an isolated OS process communicating with VoidB via `stdio-jsonrpc`.
+- **Tri-Modal Operation**:
+  - `test`: Automated connectivity verification.
+  - `tui`: Standalone full-screen interactive terminal interface.
+  - `serve`: `stdio-jsonrpc` protocol server for AI Agents and automated orchestration.
+  - Domain commands: Full bucket, object, copy, move, sync, and presigning command suite.
 - **Capability Surface**:
   - `buckets`: Discover accessible S3 buckets with provider-returned metadata.
   - `list`: List objects and common prefixes in an S3 bucket with prefix/delimiter.
@@ -20,24 +25,54 @@ Independent process plugin for [VoidB](https://github.com/limmytian/voidb) to co
   - `presign`: Create short-lived, authorized GET/PUT presigned delegation URLs.
   - `sync_plan`: Compute local/S3 sync diff plans without mutating storage.
   - `transfer` & `transfer_status`: Resumable, cancellable multipart upload/download sessions.
-- **Dual Mode**: Can run as a JSON-RPC worker server (`voidb-plugin-s3 serve`) or standalone interactive TUI.
+
+## Usage & Operational Modes
+
+When installed, `voidb-cli` automatically discovers this plugin and provides seamless transparent dispatch:
+
+### 1. Human Operations (CLI & TUI)
+
+```bash
+# Connectivity test
+voidb-cli s3 test --profile my-s3
+
+# Launch standalone interactive fullscreen TUI
+voidb-cli s3 tui --profile my-s3
+
+# Bucket and object management
+voidb-cli s3 buckets --profile my-s3
+voidb-cli s3 ls s3://my-bucket/prefix/ --profile my-s3
+voidb-cli s3 info s3://my-bucket/key.txt --profile my-s3
+voidb-cli s3 put s3://my-bucket/key.txt ./local.txt --profile my-s3
+voidb-cli s3 get s3://my-bucket/key.txt ./download.txt --profile my-s3
+voidb-cli s3 presign s3://my-bucket/key.txt --expires 3600 --profile my-s3
+```
+
+### 2. Machine Communication (AI Agents & JSON-RPC)
+
+```bash
+# Run the stdio-jsonrpc server directly or via voidb-cli
+voidb-cli s3 serve
+# Or directly run the binary:
+./bin/voidb-plugin-s3 serve
+```
 
 ## Quick Start
 
 ### Installation
 
-Place this plugin directory or a packaged release archive under your VoidB plugins directory:
+Place this plugin directory or a packaged release archive under your VoidB plugins directory (`~/Library/Application Support/voidb/plugins/s3` on macOS, or `~/.local/share/voidb/plugins/s3` on Linux):
 
 ```bash
-mkdir -p ~/.config/voidb/plugins/s3
-cp -r plugin.toml bin schemas ~/.config/voidb/plugins/s3/
+mkdir -p "$HOME/Library/Application Support/voidb/plugins/s3"
+cp -r plugin.toml bin schemas "$HOME/Library/Application Support/voidb/plugins/s3/"
 ```
 
 Verify discovery via `voidb`:
 
 ```bash
 voidb-cli plugin list
-voidb-cli plugin describe s3
+voidb-cli s3 --help
 ```
 
 ### Development & Build
