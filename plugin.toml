@@ -11,6 +11,8 @@ command = "voidb-plugin-s3"
 args = ["serve"]
 transport = "stdio-jsonrpc"
 
+[runtime.env]
+
 [connections]
 profile_schema = "schemas/profile.schema.json"
 secret_classes = ["cloud_secret_key"]
@@ -20,186 +22,709 @@ id = "buckets"
 description = "Discover accessible S3 buckets with provider-returned metadata."
 input_schema = "schemas/buckets-input.schema.json"
 output_schema = "schemas/buckets-output.schema.json"
-permissions = ["connection.read", "s3.buckets"]
+permissions = [
+    "connection.read",
+    "s3.buckets",
+]
 risk = "read_only"
 destructive = false
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+fields = []
 
 [[capabilities]]
 id = "list"
 description = "List objects and common prefixes in an S3 bucket prefix."
 input_schema = "schemas/list-input.schema.json"
 output_schema = "schemas/list-output.schema.json"
-permissions = ["connection.read", "s3.list"]
+permissions = [
+    "connection.read",
+    "s3.list",
+]
 risk = "read_only"
 destructive = false
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/prefix"
+label = "Object prefix"
+value_type = "path"
+required = false
+constraint = "prefix"
+risk_emphasis = "normal"
 
 [[capabilities]]
 id = "stat"
 description = "Read metadata for one S3 object."
 input_schema = "schemas/stat-input.schema.json"
 output_schema = "schemas/stat-output.schema.json"
-permissions = ["connection.read", "s3.stat"]
+permissions = [
+    "connection.read",
+    "s3.stat",
+]
 risk = "read_only"
 destructive = false
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/key"
+label = "Object key or prefix"
+value_type = "path"
+required = true
+constraint = "prefix"
+risk_emphasis = "normal"
 
 [[capabilities]]
 id = "get"
 description = "Fetch one S3 object as bounded base64 content."
 input_schema = "schemas/get-input.schema.json"
 output_schema = "schemas/get-output.schema.json"
-permissions = ["connection.read", "s3.get"]
+permissions = [
+    "connection.read",
+    "s3.get",
+]
 risk = "read_only"
 destructive = false
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/key"
+label = "Object key or prefix"
+value_type = "path"
+required = true
+constraint = "prefix"
+risk_emphasis = "normal"
 
 [[capabilities]]
 id = "put"
 description = "Upload one S3 object from inline bounded content."
 input_schema = "schemas/put-input.schema.json"
 output_schema = "schemas/put-output.schema.json"
-permissions = ["connection.write", "s3.put"]
+permissions = [
+    "connection.write",
+    "s3.put",
+]
 risk = "destructive"
 destructive = true
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = true
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/key"
+label = "Object key or prefix"
+value_type = "path"
+required = true
+constraint = "prefix"
+risk_emphasis = "destructive"
 
 [[capabilities]]
 id = "delete"
 description = "Delete one S3 object."
 input_schema = "schemas/delete-input.schema.json"
 output_schema = "schemas/delete-output.schema.json"
-permissions = ["connection.write", "s3.delete"]
+permissions = [
+    "connection.write",
+    "s3.delete",
+]
 risk = "destructive"
 destructive = true
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = true
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/key"
+label = "Object key or prefix"
+value_type = "path"
+required = true
+constraint = "prefix"
+risk_emphasis = "destructive"
 
 [[capabilities]]
 id = "mkdir"
 description = "Create a virtual S3 directory placeholder object."
 input_schema = "schemas/mkdir-input.schema.json"
 output_schema = "schemas/mkdir-output.schema.json"
-permissions = ["connection.write", "s3.mkdir"]
+permissions = [
+    "connection.write",
+    "s3.mkdir",
+]
 risk = "destructive"
 destructive = true
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = true
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/prefix"
+label = "Object prefix"
+value_type = "path"
+required = true
+constraint = "prefix"
+risk_emphasis = "destructive"
 
 [[capabilities]]
 id = "copy"
 description = "Copy one S3 object with bounded conflict handling and destination verification."
 input_schema = "schemas/copy-input.schema.json"
 output_schema = "schemas/copy-output.schema.json"
-permissions = ["connection.write", "s3.copy"]
+permissions = [
+    "connection.write",
+    "s3.copy",
+]
 risk = "destructive"
 destructive = true
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = true
 default_timeout_ms = 60000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/source_bucket"
+label = "Source bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/source_key"
+label = "Source object key"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/destination_bucket"
+label = "Destination bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/destination_key"
+label = "Destination object key"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "destructive"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/replace"
+label = "Replace destination"
+value_type = "boolean"
+required = false
+constraint = "exact"
+risk_emphasis = "destructive"
 
 [[capabilities]]
 id = "move"
 description = "Move one S3 object by verified copy and source identity recheck before deletion."
 input_schema = "schemas/move-input.schema.json"
 output_schema = "schemas/move-output.schema.json"
-permissions = ["connection.write", "s3.move"]
+permissions = [
+    "connection.write",
+    "s3.move",
+]
 risk = "destructive"
 destructive = true
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = true
 default_timeout_ms = 60000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/source_bucket"
+label = "Source bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/source_key"
+label = "Source object key"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/destination_bucket"
+label = "Destination bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/destination_key"
+label = "Destination object key"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "destructive"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/replace"
+label = "Replace destination"
+value_type = "boolean"
+required = false
+constraint = "exact"
+risk_emphasis = "destructive"
 
 [[capabilities]]
 id = "presign"
 description = "Create a short-lived, explicitly authorized S3 GET or PUT delegation URL."
 input_schema = "schemas/presign-input.schema.json"
 output_schema = "schemas/presign-output.schema.json"
-permissions = ["connection.delegate", "s3.presign"]
+permissions = [
+    "connection.delegate",
+    "s3.presign",
+]
 risk = "destructive"
 destructive = true
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 30000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = true
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/key"
+label = "Delegated object key"
+value_type = "path"
+required = true
+constraint = "prefix"
+risk_emphasis = "destructive"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/method"
+label = "Delegated HTTP method"
+value_type = "string"
+required = true
+constraint = "exact"
+risk_emphasis = "privilege_escalation"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/expires_seconds"
+label = "Delegation lifetime"
+value_type = "integer"
+required = false
+constraint = "exact"
+risk_emphasis = "privilege_escalation"
 
 [[capabilities]]
 id = "sync_plan"
 description = "Compute a local/S3 sync plan without applying changes."
 input_schema = "schemas/sync_plan-input.schema.json"
 output_schema = "schemas/sync_plan-output.schema.json"
-permissions = ["connection.read", "s3.sync_plan", "local.scan"]
+permissions = [
+    "connection.read",
+    "s3.sync_plan",
+    "local.scan",
+]
 risk = "read_only"
 destructive = false
 streaming = false
+execution_mode = "stateless"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 60000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+session_purposes = []
+note = "Bucket and object-prefix constraints are revalidated; multipart work requires the separate FileTransfer session family."
+capability_wide_allowed = false
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/remote_prefix"
+label = "Remote object prefix"
+value_type = "path"
+required = false
+constraint = "prefix"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/local_root"
+label = "Approved local scan root"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "privilege_escalation"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/local_path"
+label = "Relative local scan path"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/disclose_relative_paths"
+label = "Disclose relative local paths"
+value_type = "boolean"
+required = false
+constraint = "exact"
+risk_emphasis = "privilege_escalation"
 
 [[capabilities]]
 id = "transfer"
 description = "Run a cancellable, resumable S3 upload, download, verified copy, or safe move inside a plugin-owned session."
 input_schema = "schemas/transfer-input.schema.json"
 output_schema = "schemas/transfer-output.schema.json"
-permissions = ["connection.read", "connection.write", "local.read", "local.write", "s3.transfer"]
+permissions = [
+    "connection.read",
+    "connection.write",
+    "local.read",
+    "local.write",
+    "s3.transfer",
+]
 risk = "destructive"
 destructive = true
 streaming = true
+execution_mode = "session_only"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
 default_timeout_ms = 900000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = true
+note = "Bucket, key, local scope, overwrite, multipart, resume, and move constraints are revalidated inside the S3 session."
+capability_wide_allowed = false
+
+[[capabilities.authorization.session_purposes]]
+kind = "file_transfer"
+
+[capabilities.authorization.approval_schema]
+version = 1
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/operation"
+label = "Transfer operation"
+value_type = "string"
+required = true
+constraint = "exact"
+risk_emphasis = "destructive"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/bucket"
+label = "Source bucket"
+value_type = "resource_id"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/key"
+label = "Source object key"
+value_type = "path"
+required = true
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/destination_bucket"
+label = "Destination bucket"
+value_type = "resource_id"
+required = false
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/destination_key"
+label = "Destination object key"
+value_type = "path"
+required = false
+constraint = "exact"
+risk_emphasis = "destructive"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/local_root"
+label = "Approved local transfer root"
+value_type = "path"
+required = false
+constraint = "exact"
+risk_emphasis = "privilege_escalation"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/local_path"
+label = "Relative local transfer path"
+value_type = "path"
+required = false
+constraint = "exact"
+risk_emphasis = "normal"
+
+[[capabilities.authorization.approval_schema.fields]]
+path = "/replace"
+label = "Replace destination"
+value_type = "boolean"
+required = false
+constraint = "exact"
+risk_emphasis = "destructive"
+
+[capabilities.session_handoff]
+capabilities = [
+    "s3.transfer",
+    "s3.transfer_status",
+]
+
+[capabilities.session_handoff.purpose]
+kind = "file_transfer"
 
 [[capabilities]]
 id = "transfer_status"
 description = "Read the latest bounded S3 transfer lifecycle event without blocking the transfer."
 input_schema = "schemas/transfer_status-input.schema.json"
 output_schema = "schemas/transfer_status-output.schema.json"
-permissions = ["connection.read", "s3.transfer_status"]
+permissions = [
+    "connection.read",
+    "s3.transfer_status",
+]
 risk = "read_only"
 destructive = false
-streaming = false
+streaming = true
+execution_mode = "session_only"
 connection_required = true
 required_secret_classes = []
 supports_dry_run = false
-default_timeout_ms = 30000
+default_timeout_ms = 5000
+
+[capabilities.authorization]
+declared = true
+interactive_execute = false
+note = "Status exposes only the redacted shared transfer lifecycle."
+capability_wide_allowed = true
+
+[[capabilities.authorization.session_purposes]]
+kind = "file_transfer"
+
+[capabilities.session_handoff]
+capabilities = [
+    "s3.transfer",
+    "s3.transfer_status",
+]
+
+[capabilities.session_handoff.purpose]
+kind = "file_transfer"
 
 [ui]
 tui = true
+raw_input = false
 
 [requirements]
 voidb_core = ">=0.1.0"
-platforms = ["darwin", "linux", "windows"]
+platforms = [
+    "darwin",
+    "linux",
+    "windows",
+]
