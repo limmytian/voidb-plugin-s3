@@ -356,8 +356,7 @@ impl S3CliPlugin {
     fn parse_config(conn_name: &str, ctx: &CliContext) -> Result<S3Config, VoidbError> {
         let config = if let Some(config) = ctx.find_connection(conn_name) {
             config.clone()
-        } else if let Ok((_profile, config)) =
-            ctx.resolve_profile_connection(conn_name, Some("s3"))
+        } else if let Ok((_profile, config)) = ctx.resolve_profile_connection(conn_name, Some("s3"))
         {
             config
         } else {
