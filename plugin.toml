@@ -1,6 +1,6 @@
 id = "s3"
 name = "S3 Object Storage Plugin"
-version = "0.3.5"
+version = "0.3.6"
 protocol_version = "1"
 description = "Amazon S3 and S3-compatible (MinIO, Cloudflare R2, Ceph) object storage plugin for VoidB."
 license = "Apache-2.0"
@@ -722,7 +722,7 @@ tui = true
 raw_input = false
 
 [requirements]
-voidb_core = ">=0.3.3"
+voidb_core = ">=0.4.1"
 platforms = [
     "darwin",
     "linux",
