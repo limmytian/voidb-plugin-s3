@@ -28,31 +28,31 @@ Independent process plugin for [VoidB](https://github.com/limmytian/voidb) to co
 
 ## Usage & Operational Modes
 
-When installed, `voidb-cli` automatically discovers this plugin and provides seamless transparent dispatch:
+When installed, `vb` automatically discovers this plugin and provides seamless transparent dispatch:
 
 ### 1. Human Operations (CLI & TUI)
 
 ```bash
 # Connectivity test
-voidb-cli s3 test --profile my-s3
+vb s3 test --profile my-s3
 
 # Launch standalone interactive fullscreen TUI
-voidb-cli s3 tui --profile my-s3
+vb s3 tui --profile my-s3
 
 # Bucket and object management
-voidb-cli s3 buckets --profile my-s3
-voidb-cli s3 ls s3://my-bucket/prefix/ --profile my-s3
-voidb-cli s3 info s3://my-bucket/key.txt --profile my-s3
-voidb-cli s3 put s3://my-bucket/key.txt ./local.txt --profile my-s3
-voidb-cli s3 get s3://my-bucket/key.txt ./download.txt --profile my-s3
-voidb-cli s3 presign s3://my-bucket/key.txt --expires 3600 --profile my-s3
+vb s3 buckets --profile my-s3
+vb s3 ls s3://my-bucket/prefix/ --profile my-s3
+vb s3 info s3://my-bucket/key.txt --profile my-s3
+vb s3 put s3://my-bucket/key.txt ./local.txt --profile my-s3
+vb s3 get s3://my-bucket/key.txt ./download.txt --profile my-s3
+vb s3 presign s3://my-bucket/key.txt --expires 3600 --profile my-s3
 ```
 
 ### 2. Machine Communication (AI Agents & JSON-RPC)
 
 ```bash
-# Run the stdio-jsonrpc server directly or via voidb-cli
-voidb-cli s3 serve
+# Run the stdio-jsonrpc server directly or via vb
+vb s3 serve
 # Or directly run the binary:
 ./bin/voidb-plugin-s3 serve
 ```
@@ -71,8 +71,8 @@ cp -r plugin.toml bin schemas "$HOME/Library/Application Support/voidb/plugins/s
 Verify discovery via `voidb`:
 
 ```bash
-voidb-cli plugin list
-voidb-cli s3 --help
+vb plugin list
+vb s3 --help
 ```
 
 ### Development & Build
