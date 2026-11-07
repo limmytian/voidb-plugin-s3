@@ -608,8 +608,15 @@ ensure_docker_image() {
   fi
 
   if [[ "${PULL}" -eq 1 ]]; then
-    run_step docker pull "${image}" >/dev/null
-    return
+    # Registry rate limits (shared CI egress IPs) make single pulls flaky.
+    local attempt
+    for attempt in 1 2 3; do
+      if run_step docker pull "${image}" >/dev/null; then
+        return
+      fi
+      sleep $((attempt * 10))
+    done
+    die "docker pull failed after 3 attempts: ${image}"
   fi
 
   die "missing image ${image}; pull it first or pass --pull"

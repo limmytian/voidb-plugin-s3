@@ -204,7 +204,12 @@ set +a
   cd "${REPO_ROOT}"
   cargo run -p voidb-plugin-s3 --example fixture_smoke --quiet
   cargo run -p voidb-plugin-s3 --example s3_transfer_reliability --quiet
-) > "${smoke_log}" 2>&1
+) > "${smoke_log}" 2>&1 || {
+  exercise_status=$?
+  echo "capability exercise failed; smoke log tail:" >&2
+  tail -n 40 "${smoke_log}" >&2 || true
+  exit "${exercise_status}"
+}
 
 "${SCRIPT_DIR}/local-fixture-smoke.sh" logs "${START_ARGS[@]}"
 cleanup_fixture
