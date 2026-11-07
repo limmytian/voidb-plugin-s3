@@ -10,7 +10,7 @@ RUN_ID=""
 ROOT="${REPO_ROOT}/target/fixtures"
 REPORT_PATH=""
 IMAGE=""
-S3_CLIENT_IMAGE="${VOIDB_S3_CLIENT_IMAGE:-quay.io/minio/mc:RELEASE.2025-04-16T18-13-26Z}"
+S3_CLIENT_IMAGE="${VOIDB_S3_CLIENT_IMAGE:-docker.io/minio/mc:RELEASE.2025-04-16T18-13-26Z}"
 TIMEOUT=30
 TAIL_LINES=80
 KEEP=0
@@ -160,7 +160,7 @@ default_image() {
     probe|redis) echo "redis:7-alpine" ;;
     email) echo "greenmail/standalone:2.1.9" ;;
     ssh) echo "lscr.io/linuxserver/openssh-server@sha256:67d4c3a1402179a6579aa217a38b52ced557eb8a0c17a8e32fe986a4549fdee4" ;;
-    s3) echo "quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z" ;;
+    s3) echo "docker.io/minio/minio:RELEASE.2025-04-22T22-12-26Z" ;;
     webdav) echo "rclone/rclone:1.70.2" ;;
     mysql) echo "mysql:8.4" ;;
     mongodb) echo "mongo:7.0" ;;

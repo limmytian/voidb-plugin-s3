@@ -7,7 +7,7 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 RUN_ID=""
 ROOT="${REPO_ROOT}/target/fixtures"
 REPORT_PATH="${REPO_ROOT}/target/tmp/s3-fixture-smoke-evidence.md"
-IMAGE="quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z"
+IMAGE="docker.io/minio/minio:RELEASE.2025-04-22T22-12-26Z"
 TIMEOUT=90
 TAIL_LINES=80
 PULL=0
@@ -72,7 +72,7 @@ network_name() {
 }
 
 s3_client_image() {
-  printf '%s\n' "${VOIDB_S3_CLIENT_IMAGE:-quay.io/minio/mc:RELEASE.2025-04-16T18-13-26Z}"
+  printf '%s\n' "${VOIDB_S3_CLIENT_IMAGE:-docker.io/minio/mc:RELEASE.2025-04-16T18-13-26Z}"
 }
 
 cleanup_fixture() {
